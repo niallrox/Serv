@@ -6,11 +6,12 @@ import commands.*;
 import java.io.*;
 import java.sql.SQLException;
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 
 public class CollectionManager {
     public Map<String, AbstractCommand> commandMap;
-    public Collection<Route> col = Collections.synchronizedCollection(new LinkedList<>());
+    public Collection<Route> col = new CopyOnWriteArrayList(new LinkedList<>());
 
 
 
