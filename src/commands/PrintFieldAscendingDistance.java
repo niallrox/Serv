@@ -3,7 +3,7 @@ package commands;
 
 import Foundation.Route;
 import proga.CollectionManager;
-import proga.ServerSender;
+import proga.Sender;
 
 
 import java.net.DatagramSocket;
@@ -24,10 +24,10 @@ public class PrintFieldAscendingDistance extends AbstractCommand {
     Runnable printfield = () -> {
         if (manager.col.size() != 0) {
             Stream<Route> stream = manager.col.stream();
-            poolSend.submit(new ServerSender(datagramSocket,inetSocketAddress,stream.filter(col -> col.getDistance() != null).sorted((p1, p2) -> (int) (p1.getDistance() - p2.getDistance()))
+            poolSend.submit(new Sender(datagramSocket,inetSocketAddress,stream.filter(col -> col.getDistance() != null).sorted((p1, p2) -> (int) (p1.getDistance() - p2.getDistance()))
                     .map(col -> "Distance" + " - " + col.getDistance()).collect(Collectors.joining("\n"))));
         }
-        poolSend.submit(new ServerSender(datagramSocket,inetSocketAddress,"Коллекция пуста"));
+        poolSend.submit(new Sender(datagramSocket,inetSocketAddress,"Коллекция пуста"));
     };
     FTP.execute(printfield);
     }

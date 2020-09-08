@@ -2,7 +2,7 @@ package commands;
 
 import proga.Data;
 import proga.CollectionManager;
-import proga.ServerSender;
+import proga.Sender;
 
 
 import java.net.DatagramSocket;
@@ -20,23 +20,19 @@ public class Clear extends AbstractCommand {
         this.data = data;
     }
 
-    /**
-     * Метод очищает коллекцию
-     *
-     * @return
-     */
+
     @Override
     public void executeCommand(ExecutorService FTP, ExecutorService poolSend, DatagramSocket datagramSocket , InetSocketAddress inetSocketAddress, String login) throws InterruptedException {
         Runnable clear = () -> {
             try {
                 data.clearSQL(login);
                 if (manager.col.removeIf(col -> col.getLogin().equals(login))) {
-                    poolSend.submit(new ServerSender(datagramSocket, inetSocketAddress ,  "Коллекция очищена. Удалены все принадлежащие вам элементы"));
+                    poolSend.submit(new Sender(datagramSocket, inetSocketAddress ,  "Коллекция очищена. Удалены все принадлежащие вам элементы"));
                 } else {
-                    poolSend.submit(new ServerSender(datagramSocket, inetSocketAddress, "В коллекции нет элементов принадлежащих пользователю"));
+                    poolSend.submit(new Sender(datagramSocket, inetSocketAddress, "В коллекции нет элементов принадлежащих пользователю"));
                 }
             } catch (SQLException e) {
-                poolSend.submit(new ServerSender(datagramSocket, inetSocketAddress, "Ошибка при работе с БД (вероятно что-то с БД)"));
+                poolSend.submit(new Sender(datagramSocket, inetSocketAddress, "Ошибка при работе с БД (вероятно что-то с БД)"));
             }
         };
         FTP.execute(clear);

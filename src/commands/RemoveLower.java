@@ -4,7 +4,7 @@ package commands;
 import Foundation.Route;
 import proga.Data;
 import proga.CollectionManager;
-import proga.ServerSender;
+import proga.Sender;
 
 
 import java.net.DatagramSocket;
@@ -32,10 +32,10 @@ public class RemoveLower extends AbstractCommand {
                     e.printStackTrace();
                 }
             } else {
-                poolSend.submit(new ServerSender(datagramSocket,inetSocketAddress, "Нема меньших"));
+                poolSend.submit(new Sender(datagramSocket,inetSocketAddress, "Нема меньших"));
             }
         }
-        poolSend.submit(new ServerSender(datagramSocket,inetSocketAddress,"ЕлеМенты успешно удалены"));
+        poolSend.submit(new Sender(datagramSocket,inetSocketAddress,"ЕлеМенты успешно удалены"));
     };
      FTP.execute(delete);
     }

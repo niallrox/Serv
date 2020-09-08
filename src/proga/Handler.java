@@ -10,20 +10,20 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class ServerHandler {
+public class Handler {
     public ExecutorService pool = Executors.newFixedThreadPool(2);
 
     public void handler(Command command, CollectionManager manager, Data data, ExecutorService poolSend, DatagramSocket datagramSocket, InetSocketAddress inetAddress) {
         try {
             if (command.getName().equals("reg")) {
-                poolSend.submit(new ServerSender(datagramSocket, inetAddress, data.registration(command)));
+                poolSend.submit(new Sender(datagramSocket, inetAddress, data.registration(command)));
             } else if (command.getName().equals("sign")) {
                 if (data.authorization(command)) {
                     System.out.println("Пользователь с логином " + command.getLogin() + " успешно авторизован.");
-                    poolSend.submit(new ServerSender(datagramSocket, inetAddress, "Авторизация прошла успешно"));
+                    poolSend.submit(new Sender(datagramSocket, inetAddress, "Авторизация прошла успешно"));
                 } else {
                     System.out.println("Пользователь ввел не верный пароль");
-                    poolSend.submit(new ServerSender(datagramSocket, inetAddress, "Логин или пароль введены неверно"));
+                    poolSend.submit(new Sender(datagramSocket, inetAddress, "Логин или пароль введены неверно"));
                 }
             } else {
                 if (data.authorization(command)) {
@@ -60,7 +60,7 @@ public class ServerHandler {
                     System.out.println("Обработана команда " + command.getName());
                 } else {
                     System.out.println("Кто-то обошел защиту сервера");
-                    poolSend.submit(new ServerSender(datagramSocket, inetAddress, "О вы юный хакер"));
+                    poolSend.submit(new Sender(datagramSocket, inetAddress, "О вы юный хакер"));
                 }
             }
         } catch (NoSuchAlgorithmException | ExecutionException | InterruptedException | UnsupportedEncodingException | SQLException e) {

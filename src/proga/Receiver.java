@@ -9,15 +9,15 @@ import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.util.concurrent.ExecutorService;
 
-public class ServerReceiver implements Runnable {
+public class Receiver implements Runnable {
     private CollectionManager manager;
     private Data data;
     private ExecutorService poolSend;
-    private ServerHandler serverHandler = new ServerHandler();
+    private Handler serverHandler = new Handler();
     private byte[] sendbuf;
     private DatagramSocket datagramSocket;
 
-    public ServerReceiver(DatagramSocket datagramSocket, byte[] sendbuf, CollectionManager manager, Data data, ExecutorService poolSend) {
+    public Receiver(DatagramSocket datagramSocket, byte[] sendbuf, CollectionManager manager, Data data, ExecutorService poolSend) {
         this.datagramSocket = datagramSocket;
         this.sendbuf = sendbuf;
         this.manager = manager;

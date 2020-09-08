@@ -4,7 +4,7 @@ package commands;
 import Foundation.Route;
 import proga.Data;
 import proga.CollectionManager;
-import proga.ServerSender;
+import proga.Sender;
 
 
 import java.net.DatagramSocket;
@@ -24,13 +24,7 @@ public class AddIfMax extends AbstractCommand {
         this.data = data;
     }
 
-    /**
-     * Метод добавляет элемент в коллекцию, если его height больше максимального
-     *
-     * @param route
-     * @param login
-     * @return
-     */
+
     @Override
     public void executeCommand(ExecutorService FTP, ExecutorService poolSend, DatagramSocket datagramSocket , InetSocketAddress inetSocketAddress, Route route, String login) throws InterruptedException {
         Runnable addElement = () -> {
@@ -45,18 +39,18 @@ public class AddIfMax extends AbstractCommand {
                         route.setId(id);
                         route.setLogin(login);
                         manager.col.add(route);
-                        poolSend.submit(new ServerSender(datagramSocket, inetSocketAddress , "Элемент коллекции добавлен"));
+                        poolSend.submit(new Sender(datagramSocket, inetSocketAddress , "Элемент коллекции добавлен"));
                     } catch (SQLException e) {
-                        poolSend.submit(new ServerSender(datagramSocket, inetSocketAddress , "Ошибка при работе с БД (вероятно что-то с БД)"));
+                        poolSend.submit(new Sender(datagramSocket, inetSocketAddress , "Ошибка при работе с БД (вероятно что-то с БД)"));
                     } catch (NullPointerException e) {
-                        poolSend.submit(new ServerSender(datagramSocket, inetSocketAddress , "Данные в скрипте введены не верно"));
+                        poolSend.submit(new Sender(datagramSocket, inetSocketAddress , "Данные в скрипте введены не верно"));
                     }
                 } else {
-                    poolSend.submit(new ServerSender(datagramSocket, inetSocketAddress , "Элемент коллекции не сохранен, так как его height меньше " +
+                    poolSend.submit(new Sender(datagramSocket, inetSocketAddress , "Элемент коллекции не сохранен, так как его height меньше " +
                             "distance других элементов коллекции больше или равен null"));
                 }
             } else {
-                poolSend.submit(new ServerSender(datagramSocket, inetSocketAddress , "Коллекция пуста"));
+                poolSend.submit(new Sender(datagramSocket, inetSocketAddress , "Коллекция пуста"));
             }
         };
         FTP.execute(addElement);

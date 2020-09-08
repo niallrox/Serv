@@ -2,7 +2,7 @@ package commands;
 
 import Foundation.Route;
 import proga.CollectionManager;
-import proga.ServerSender;
+import proga.Sender;
 
 
 import java.net.DatagramSocket;
@@ -23,9 +23,9 @@ public class MaxByFrom extends AbstractCommand {
             Stream<Route> stream = manager.col.stream();
             Route max = stream
                     .max(Comparator.comparingInt(p -> p.getFromSum())).get();
-            poolSend.submit(new ServerSender( datagramSocket,inetSocketAddress,  "Элемент с максимальным значением From ето " + max));
+            poolSend.submit(new Sender( datagramSocket,inetSocketAddress,  "Элемент с максимальным значением From ето " + max));
         } else {
-            poolSend.submit(new ServerSender(datagramSocket,inetSocketAddress, "Коллекция пуста"));
+            poolSend.submit(new Sender(datagramSocket,inetSocketAddress, "Коллекция пуста"));
         }
     };
       FTP.execute(maxbyfrom);

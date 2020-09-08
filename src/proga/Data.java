@@ -72,13 +72,7 @@ public class Data {
         }
     }
 
-    /**
-     * Метод авторизует пользователя
-     *
-     * @param command
-     * @return
-     * @throws UnsupportedEncodingException
-     */
+
     public boolean authorization(Command command) throws UnsupportedEncodingException, NoSuchAlgorithmException {
         try {
             hash = MessageDigest.getInstance("MD5");

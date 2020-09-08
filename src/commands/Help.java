@@ -1,26 +1,19 @@
 package commands;
 
-import proga.ServerSender;
+import proga.Sender;
 
 import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
-import java.nio.channels.SelectionKey;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 public class Help extends AbstractCommand {
     private String answer;
 
-    /**
-     * Метод выводит все доступные команды
-     *
-     * @return
-     */
+
     @Override
     public void executeCommand(ExecutorService FTP, ExecutorService poolSend, DatagramSocket datagramSocket , InetSocketAddress inetSocketAddress) throws InterruptedException {
         Runnable help = () -> {
-            poolSend.submit(new ServerSender(datagramSocket, inetSocketAddress, "help: Вывести справку по доступным командам " +
+            poolSend.submit(new Sender(datagramSocket, inetSocketAddress, "help: Вывести справку по доступным командам " +
             "\ninfo: Вывести информацию о коллекции " +
                     "\nshow: Вывести все элементы коллекции в строковом представлении " +
                     "\nadd: Добавить новый элемент в коллекцию " +

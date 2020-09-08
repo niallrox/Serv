@@ -18,7 +18,7 @@ public class CollectionManager {
     public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
         System.out.println("Запуск сервера");
         System.out.println("hi,type port");
-        ServerConnection serverConnection = new ServerConnection();
+        Connection serverConnection = new Connection();
         try {
             Runtime.getRuntime().addShutdownHook(new Thread() {
                 public void run() {

@@ -6,7 +6,7 @@ import java.util.Scanner;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class ServerConnection {
+public class Connection {
     private CollectionManager manager = new CollectionManager();
     private Data data = new Data();
     private Scanner scanner = new Scanner(System.in);
@@ -22,7 +22,7 @@ public class ServerConnection {
             while (true) {
                 manager.loadCommands(manager, data);
                 manager.loadToCol(file, data);
-                poolReceiver.submit(new ServerReceiver(datagramSocket, buf, manager, data, poolSend));
+                poolReceiver.submit(new Receiver(datagramSocket, buf, manager, data, poolSend));
             }
         }
     }

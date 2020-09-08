@@ -4,7 +4,7 @@ package commands;
 import Foundation.Route;
 import proga.Data;
 import proga.CollectionManager;
-import proga.ServerSender;
+import proga.Sender;
 
 
 import java.net.DatagramSocket;
@@ -21,13 +21,7 @@ public class Update extends AbstractCommand {
         this.data = data;
     }
 
-    /**
-     * Метод обновляет элемент по его id
-     *
-     * @param str
-     * @param route
-     * @return
-     */
+
     @Override
     public void executeCommand(ExecutorService FTP, ExecutorService poolSend, DatagramSocket datagramSocket , InetSocketAddress inetSocketAddress, String str, Route route, String login) throws NumberFormatException, InterruptedException {
         Runnable update = () -> {
@@ -40,20 +34,20 @@ public class Update extends AbstractCommand {
                             route.setId(id);
                             route.setLogin(login);
                             manager.col.add(route);
-                            poolSend.submit(new ServerSender(datagramSocket , inetSocketAddress, "Элемент обновлен"));
+                            poolSend.submit(new Sender(datagramSocket , inetSocketAddress, "Элемент обновлен"));
                         } else {
-                            poolSend.submit(new ServerSender(datagramSocket , inetSocketAddress, "Элемента с таким id нет или пользователь не имеет доступа к этому элементу"));
+                            poolSend.submit(new Sender(datagramSocket , inetSocketAddress, "Элемента с таким id нет или пользователь не имеет доступа к этому элементу"));
                         }
                     } else {
-                        poolSend.submit(new ServerSender(datagramSocket , inetSocketAddress, "Коллекция пуста"));
+                        poolSend.submit(new Sender(datagramSocket , inetSocketAddress, "Коллекция пуста"));
                     }
                 } else {
-                    poolSend.submit(new ServerSender(datagramSocket , inetSocketAddress, "Ошибка при добавлении элемента. Поля указаны не верно"));
+                    poolSend.submit(new Sender(datagramSocket , inetSocketAddress, "Ошибка при добавлении элемента. Поля указаны не верно"));
                 }
             } catch (SQLException e) {
-                poolSend.submit(new ServerSender(datagramSocket , inetSocketAddress, "Ошибка при работе с БД (вероятно что-то с БД)"));
+                poolSend.submit(new Sender(datagramSocket , inetSocketAddress, "Ошибка при работе с БД (вероятно что-то с БД)"));
             } catch (NullPointerException e) {
-                poolSend.submit(new ServerSender(datagramSocket , inetSocketAddress, "Данные в скрипте введены не верно"));
+                poolSend.submit(new Sender(datagramSocket , inetSocketAddress, "Данные в скрипте введены не верно"));
             }
         };
         FTP.execute(update);

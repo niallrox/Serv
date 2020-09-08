@@ -3,7 +3,7 @@ package commands;
 import Foundation.Route;
 import proga.Data;
 import proga.CollectionManager;
-import proga.ServerSender;
+import proga.Sender;
 
 import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
@@ -29,12 +29,12 @@ public class RemoveHead extends AbstractCommand {
             try {
                 data.deleteById(a.getId(),login);
             } catch (SQLException e) {
-                poolSend.submit(new ServerSender(datagramSocket , inetSocketAddress, "Ошибка при работе с БД (вероятно что-то с БД)"));
+                poolSend.submit(new Sender(datagramSocket , inetSocketAddress, "Ошибка при работе с БД (вероятно что-то с БД)"));
             }
             manager.col.remove(a);
-            poolSend.submit(new ServerSender(datagramSocket , inetSocketAddress, a.toString()));
+            poolSend.submit(new Sender(datagramSocket , inetSocketAddress, a.toString()));
 
-        } else poolSend.submit(new ServerSender(datagramSocket , inetSocketAddress, "Коллекция пуста"));
+        } else poolSend.submit(new Sender(datagramSocket , inetSocketAddress, "Коллекция пуста"));
     };
         FTP.execute(delete);
     }

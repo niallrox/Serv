@@ -8,12 +8,12 @@ import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.SocketChannel;
 
-public class ServerSender implements Runnable {
+public class Sender implements Runnable {
     private DatagramSocket datagramSocket;
     private InetSocketAddress inetAddress;
     private String answer;
 
-    public ServerSender(DatagramSocket datagramSocket, InetSocketAddress inetSocketAddress, String answer) {
+    public Sender(DatagramSocket datagramSocket, InetSocketAddress inetSocketAddress, String answer) {
         this.datagramSocket =datagramSocket;
         this.inetAddress=inetSocketAddress;
         this.answer = answer;
