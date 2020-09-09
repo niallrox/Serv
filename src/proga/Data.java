@@ -15,7 +15,7 @@ import java.util.Properties;
 
 public class Data {
     private ResultSet res;
-    private Connection connect;
+    private java.sql.Connection connect;
     private PreparedStatement ps;
     private Statement statement;
     private Route route;
