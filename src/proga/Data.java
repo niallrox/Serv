@@ -132,14 +132,6 @@ public class Data {
     }
 
 
-    public void deleteByHeight(int height, String login) throws SQLException {
-        ps = connect.prepareStatement("DELETE FROM studygroup WHERE(height > ?) AND (login = ?)");
-        ps.setInt(1, height);
-        ps.setString(2, login);
-        ps.execute();
-    }
-
-
     public void deleteById(Long id, String login) throws SQLException {
         ps = connect.prepareStatement("DELETE FROM route WHERE(id = ?) AND (login = ?)");
         ps.setLong(1, id);
