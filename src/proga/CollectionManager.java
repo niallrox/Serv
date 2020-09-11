@@ -1,38 +1,47 @@
 package proga;
 
-import Foundation.*;
+import Foundation.Route;
 import commands.*;
 
-import java.io.*;
+import java.io.IOException;
+import java.net.DatagramSocket;
+import java.net.InetSocketAddress;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.ExecutionException;
 
 
 public class CollectionManager {
     public Map<String, AbstractCommand> commandMap;
     public Collection<Route> col = new CopyOnWriteArrayList(new LinkedList<>());
-
+    public static int port;
 
 
     public static void main(String[] args) throws IOException, ClassNotFoundException, InterruptedException {
         System.out.println("Запуск сервера");
         System.out.println("hi,type port");
-        Connection serverConnection = new Connection();
-        try {
-            Runtime.getRuntime().addShutdownHook(new Thread() {
-                public void run() {
-                    System.out.println("Отключение сервера");
-                }
-            });
-            serverConnection.connection(args[0]);
-        } catch (ArrayIndexOutOfBoundsException e) {
-            System.out.println("Вы не ввели имя файла");
-        } catch (NoSuchElementException e) {
-            //Для ctrl+D
+        Scanner scanner = new Scanner(System.in);
+        port = Integer.parseInt(scanner.nextLine());
+        try (DatagramSocket datagramSocket = new DatagramSocket(null)) {
+            datagramSocket.bind(new InetSocketAddress(port));
+            Connection serverConnection = new Connection(datagramSocket);
+            try {
+                Runtime.getRuntime().addShutdownHook(new Thread() {
+                    public void run() {
+                        System.out.println("Отключение сервера");
+                    }
+                });
+                serverConnection.connection(args[0]);
+            } catch (ArrayIndexOutOfBoundsException e) {
+                System.out.println("Вы не ввели имя файла");
+            } catch (NoSuchElementException e) {
+                //Для ctrl+D
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
         }
     }
-
 
     public void loadCommands(CollectionManager manager, Data data) {
         commandMap = new HashMap<>();

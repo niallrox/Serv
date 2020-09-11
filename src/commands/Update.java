@@ -8,6 +8,7 @@ import proga.Sender;
 
 
 import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.sql.SQLException;
 import java.util.concurrent.ExecutorService;
@@ -23,7 +24,7 @@ public class Update extends AbstractCommand {
 
 
     @Override
-    public void executeCommand(ExecutorService FTP, ExecutorService poolSend, DatagramSocket datagramSocket , InetSocketAddress inetSocketAddress, String str, Route route, String login) throws NumberFormatException, InterruptedException {
+    public void executeCommand(ExecutorService FTP, ExecutorService poolSend, DatagramSocket datagramSocket , InetAddress inetSocketAddress, String str, Route route, String login) throws NumberFormatException, InterruptedException {
         Runnable update = () -> {
             try {
                 if (!(route == null)) {

@@ -27,9 +27,9 @@ public class Data {
         FileInputStream bd = new FileInputStream(file);
         Properties properties = new Properties();
         properties.load(bd);
-        String url = properties.getProperty("BD.location");
-        String login = properties.getProperty("BD.login");
-        String password = properties.getProperty("BD.password");
+        String url = properties.getProperty("location");
+        String login = properties.getProperty("username");
+        String password = properties.getProperty("password");
         Class.forName("org.postgresql.Driver");
         connect = DriverManager.getConnection(url, login, password);
         statement = connect.createStatement();

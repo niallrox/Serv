@@ -8,6 +8,7 @@ import proga.Sender;
 
 
 import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.sql.SQLException;
 import java.util.concurrent.ExecutorService;
@@ -22,7 +23,7 @@ public class RemoveLower extends AbstractCommand {
     }
 
     @Override
-    public void executeCommand(ExecutorService FTP, ExecutorService poolSend, DatagramSocket datagramSocket , InetSocketAddress inetSocketAddress, Route route, String login) throws InterruptedException, SQLException {
+    public void executeCommand(ExecutorService FTP, ExecutorService poolSend, DatagramSocket datagramSocket , InetAddress inetSocketAddress, Route route, String login) throws InterruptedException, SQLException {
      Runnable delete = () -> {
         if (manager.col.size() != 0) {
             if (manager.col.removeIf(dis -> dis.getDistance() < ((route).getDistance()))) {

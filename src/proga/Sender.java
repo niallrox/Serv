@@ -1,37 +1,38 @@
 package proga;
 
-import java.io.*;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
-import java.net.InetSocketAddress;
-import java.nio.ByteBuffer;
-import java.nio.channels.SelectionKey;
-import java.nio.channels.SocketChannel;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.net.*;
+import java.util.concurrent.Callable;
 
-public class Sender implements Runnable {
+public class Sender implements Callable<DatagramPacket> {
     private DatagramSocket datagramSocket;
-    private InetSocketAddress inetAddress;
+    private InetAddress inetAddress;
     private String answer;
+    private SocketAddress s;
 
-    public Sender(DatagramSocket datagramSocket, InetSocketAddress inetSocketAddress, String answer) {
-        this.datagramSocket =datagramSocket;
-        this.inetAddress=inetSocketAddress;
+    public Sender(DatagramSocket datagramSocket, InetAddress inetSocketAddress, String answer) {
+        this.datagramSocket = datagramSocket;
+        this.inetAddress = inetSocketAddress;
         this.answer = answer;
     }
 
 
-    public void run() {
+    public DatagramPacket call() {
         try {
             try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                  ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream)) {
                 objectOutputStream.writeObject(answer);
                 objectOutputStream.flush();
                 byte[] sendbuf = byteArrayOutputStream.toByteArray();
-                DatagramPacket datagramPacket = new DatagramPacket(sendbuf, sendbuf.length, inetAddress);
+                s = new InetSocketAddress(inetAddress, CollectionManager.port);
+                DatagramPacket datagramPacket = new DatagramPacket(sendbuf, sendbuf.length, s);
                 datagramSocket.send(datagramPacket);
+                System.out.println("ssss213124");
+                return datagramPacket;
             }
         } catch (IOException e) {
-//aasasasasa
         }
-    }
+    return null;}
 }

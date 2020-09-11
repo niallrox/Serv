@@ -4,6 +4,7 @@ import proga.CollectionManager;
 import proga.Sender;
 
 import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.util.Date;
 import java.util.concurrent.ExecutorService;
@@ -20,7 +21,7 @@ public class Info extends AbstractCommand {
 
 
     @Override
-    public void executeCommand(ExecutorService FTP, ExecutorService poolSend, DatagramSocket datagramSocket , InetSocketAddress inetSocketAddress) throws InterruptedException {
+    public void executeCommand(ExecutorService FTP, ExecutorService poolSend, DatagramSocket datagramSocket ,InetAddress inetSocketAddress) throws InterruptedException {
         Runnable info = () -> {
             answer = "Тип коллекции - PriorityQueue\n" +
                     "Дата инициализации " + initDate + "\n" +

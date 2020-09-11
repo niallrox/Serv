@@ -3,20 +3,22 @@ package proga;
 
 import java.io.*;
 import java.net.DatagramSocket;
-import java.net.InetSocketAddress;
-import java.security.NoSuchAlgorithmException;;
+import java.net.InetAddress;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+
 public class Handler {
     public ExecutorService pool = Executors.newFixedThreadPool(2);
 
-    public void handler(Command command, CollectionManager manager, Data data, ExecutorService poolSend, DatagramSocket datagramSocket, InetSocketAddress inetAddress) {
+    public void handler(Command command, CollectionManager manager, Data data, ExecutorService poolSend, DatagramSocket datagramSocket, InetAddress inetAddress) {
         try {
             if (command.getName().equals("reg")) {
-                poolSend.submit(new Sender(datagramSocket, inetAddress, data.registration(command)));
+                Sender s = new Sender(datagramSocket, inetAddress, data.registration(command));
+                poolSend.submit(s);
             } else if (command.getName().equals("sign")) {
                 if (data.authorization(command)) {
                     System.out.println("Пользователь с логином " + command.getLogin() + " успешно авторизован.");
@@ -29,7 +31,7 @@ public class Handler {
                 if (data.authorization(command)) {
                     switch (command.getName()) {
                         case "clear": {
-                            manager.commandMap.get(command.getName()).executeCommand(pool, poolSend, datagramSocket, inetAddress, command.getLogin());
+                            manager.commandMap.get(command.getName()).executeCommand(pool, poolSend, datagramSocket, inetAddress , command.getLogin());
                         }
                         break;
                         case "show":
@@ -54,7 +56,7 @@ public class Handler {
                         }
                         break;
                         case "update": {
-                            manager.commandMap.get(command.getName()).executeCommand(pool, poolSend, datagramSocket, inetAddress, command.getArgs(), command.getRoute(), command.getLogin());
+                            manager.commandMap.get(command.getName()).executeCommand(pool, poolSend, datagramSocket, inetAddress,command.getArgs(), command.getRoute(), command.getLogin());
                         }
                     }
                     System.out.println("Обработана команда " + command.getName());

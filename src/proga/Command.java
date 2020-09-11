@@ -9,7 +9,7 @@ import java.io.Serializable;
 /**
  * Класс для передачи команд в виде объекта
  */
-public class Command implements Serializable {
+public class Command implements Serializable,Runnable {
     private static final long serialVersionUID = 17L;
     private String name;
     private String args;
@@ -61,5 +61,10 @@ public class Command implements Serializable {
 
     public String getPassword() {
         return password;
+    }
+
+    @Override
+    public void run() {
+
     }
 }

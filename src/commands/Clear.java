@@ -6,6 +6,7 @@ import proga.Sender;
 
 
 import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.sql.SQLException;
 import java.util.concurrent.ExecutorService;
@@ -22,7 +23,7 @@ public class Clear extends AbstractCommand {
 
 
     @Override
-    public void executeCommand(ExecutorService FTP, ExecutorService poolSend, DatagramSocket datagramSocket , InetSocketAddress inetSocketAddress, String login) throws InterruptedException {
+    public void executeCommand(ExecutorService FTP, ExecutorService poolSend, DatagramSocket datagramSocket ,InetAddress inetSocketAddress, String login) throws InterruptedException {
         Runnable clear = () -> {
             try {
                 data.clearSQL(login);

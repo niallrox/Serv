@@ -5,6 +5,7 @@ import Foundation.*;
 import proga.*;
 
 import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.sql.SQLException;
 import java.util.concurrent.ExecutorService;
@@ -19,7 +20,7 @@ public class Add extends AbstractCommand {
     }
 
     @Override
-    public void executeCommand(ExecutorService FTP, ExecutorService poolSend, DatagramSocket datagramSocket , InetSocketAddress inetSocketAddress, Route route, String login) throws InterruptedException {
+    public void executeCommand(ExecutorService FTP, ExecutorService poolSend, DatagramSocket datagramSocket ,InetAddress inetSocketAddress, Route route, String login) throws InterruptedException {
         Runnable addElement = () -> {
             try {
                 long id = data.getSQLId();

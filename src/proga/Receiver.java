@@ -7,9 +7,10 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
+import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
 
-public class Receiver implements Runnable {
+public class Receiver implements Callable<Command> {
     private CollectionManager manager;
     private Data data;
     private ExecutorService poolSend;
@@ -38,7 +39,7 @@ public class Receiver implements Runnable {
 
 
     @Override
-    public void run() {
+    public Command call() {
         try {
             DatagramPacket datagramPacket = new DatagramPacket(sendbuf, sendbuf.length);
             datagramSocket.receive(datagramPacket);
@@ -49,11 +50,11 @@ public class Receiver implements Runnable {
             Command command = (Command) fromServer.readObject();
             byteArrayInputStream.close();
             fromServer.close();
-            serverHandler.handler(command, manager, data, poolSend, datagramSocket, new InetSocketAddress(inetAddress, port));
+            return command;
         } catch (IOException ex) {
             ex.printStackTrace();
         } catch (ClassNotFoundException ex) {
             ex.printStackTrace();
         }
-    }
+    return null;}
 }

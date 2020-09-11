@@ -3,6 +3,7 @@ package commands;
 import proga.Sender;
 
 import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.util.concurrent.ExecutorService;
 
@@ -11,7 +12,7 @@ public class Help extends AbstractCommand {
 
 
     @Override
-    public void executeCommand(ExecutorService FTP, ExecutorService poolSend, DatagramSocket datagramSocket , InetSocketAddress inetSocketAddress) throws InterruptedException {
+    public void executeCommand(ExecutorService FTP, ExecutorService poolSend, DatagramSocket datagramSocket , InetAddress inetSocketAddress) throws InterruptedException {
         Runnable help = () -> {
             poolSend.submit(new Sender(datagramSocket, inetSocketAddress, "help: Вывести справку по доступным командам " +
             "\ninfo: Вывести информацию о коллекции " +

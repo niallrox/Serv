@@ -5,6 +5,7 @@ import proga.CollectionManager;
 import proga.Sender;
 
 import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.sql.SQLException;
 import java.util.concurrent.ExecutorService;
@@ -21,7 +22,7 @@ public class RemoveId extends AbstractCommand {
 
 
     @Override
-    public void executeCommand(ExecutorService FTP, ExecutorService poolSend, DatagramSocket datagramSocket , InetSocketAddress inetSocketAddress, String str, String login) throws NumberFormatException, InterruptedException {
+    public void executeCommand(ExecutorService FTP, ExecutorService poolSend, DatagramSocket datagramSocket , InetAddress inetSocketAddress, String str, String login) throws NumberFormatException, InterruptedException {
         Runnable delete = () -> {
             if (!(manager.col.size() == 0)) {
                 Long id = Long.parseLong(str);

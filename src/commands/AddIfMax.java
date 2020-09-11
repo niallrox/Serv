@@ -8,6 +8,7 @@ import proga.Sender;
 
 
 import java.net.DatagramSocket;
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.sql.SQLException;
 import java.util.Comparator;
@@ -26,7 +27,7 @@ public class AddIfMax extends AbstractCommand {
 
 
     @Override
-    public void executeCommand(ExecutorService FTP, ExecutorService poolSend, DatagramSocket datagramSocket , InetSocketAddress inetSocketAddress, Route route, String login) throws InterruptedException {
+    public void executeCommand(ExecutorService FTP, ExecutorService poolSend, DatagramSocket datagramSocket ,InetAddress inetSocketAddress, Route route, String login) throws InterruptedException {
         Runnable addElement = () -> {
             if (!(manager.col.size() == 0)) {
                 Stream<Route> stream = manager.col.stream();
