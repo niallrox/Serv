@@ -3,6 +3,7 @@ package proga;
 import java.io.File;
 import java.io.IOException;
 import java.net.DatagramSocket;
+import java.net.SocketAddress;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -16,9 +17,12 @@ public class Connection {
     private byte[] buf = new byte[4096];
     private DatagramSocket datagramSocket;
     private Handler handler = new Handler();
+    private SocketAddress socketAddress;
 
-    public Connection(DatagramSocket datagramSocket) {
+    public Connection(DatagramSocket datagramSocket, SocketAddress socketAddress) {
         this.datagramSocket = datagramSocket;
+        this.socketAddress = socketAddress;
+
     }
 
 
@@ -29,8 +33,7 @@ public class Connection {
         while (true) {
             Receiver r = new Receiver(datagramSocket, buf, manager, data, poolSend);
             Future<Command> f = poolReceiver.submit(r);
-            System.out.println(r.getInetAddress() +" " +datagramSocket.getInetAddress() );
-            handler.handler(f.get(), manager, data, poolSend, datagramSocket, r.getInetAddress());
+            handler.handler(f.get(), manager, data, poolSend, datagramSocket, socketAddress);
         }
     }
 }

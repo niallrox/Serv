@@ -4,35 +4,33 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.*;
-import java.util.concurrent.Callable;
 
-public class Sender implements Callable<DatagramPacket> {
+public class Sender implements Runnable {
     private DatagramSocket datagramSocket;
     private InetAddress inetAddress;
     private String answer;
     private SocketAddress s;
 
-    public Sender(DatagramSocket datagramSocket, InetAddress inetSocketAddress, String answer) {
+    public Sender(DatagramSocket datagramSocket, SocketAddress inetSocketAddress, String answer) {
         this.datagramSocket = datagramSocket;
-        this.inetAddress = inetSocketAddress;
+        this.s = inetSocketAddress;
         this.answer = answer;
     }
 
 
-    public DatagramPacket call() {
+    public void run() {
         try {
             try (ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                  ObjectOutputStream objectOutputStream = new ObjectOutputStream(byteArrayOutputStream)) {
                 objectOutputStream.writeObject(answer);
                 objectOutputStream.flush();
                 byte[] sendbuf = byteArrayOutputStream.toByteArray();
-                s = new InetSocketAddress(inetAddress, CollectionManager.port);
                 DatagramPacket datagramPacket = new DatagramPacket(sendbuf, sendbuf.length, s);
+                System.out.println("piski");
                 datagramSocket.send(datagramPacket);
-                System.out.println("ssss213124");
-                return datagramPacket;
+                System.out.println("siski");
             }
         } catch (IOException e) {
         }
-    return null;}
+    }
 }

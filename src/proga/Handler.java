@@ -4,6 +4,7 @@ package proga;
 import java.io.*;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
+import java.net.SocketAddress;
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.util.concurrent.ExecutionException;
@@ -14,11 +15,13 @@ import java.util.concurrent.Executors;
 public class Handler {
     public ExecutorService pool = Executors.newFixedThreadPool(2);
 
-    public void handler(Command command, CollectionManager manager, Data data, ExecutorService poolSend, DatagramSocket datagramSocket, InetAddress inetAddress) {
+    public void handler(Command command, CollectionManager manager, Data data, ExecutorService poolSend, DatagramSocket datagramSocket, SocketAddress inetAddress) {
         try {
             if (command.getName().equals("reg")) {
-                Sender s = new Sender(datagramSocket, inetAddress, data.registration(command));
-                poolSend.submit(s);
+                String answer = data.registration(command);
+                Sender s = new Sender(datagramSocket, inetAddress, answer);
+                s.run();
+ //             poolSend.submit(s);
             } else if (command.getName().equals("sign")) {
                 if (data.authorization(command)) {
                     System.out.println("Пользователь с логином " + command.getLogin() + " успешно авторизован.");

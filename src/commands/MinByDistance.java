@@ -7,8 +7,7 @@ import proga.Sender;
 
 
 import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
+import java.net.SocketAddress;
 import java.util.concurrent.ExecutorService;
 
 public class MinByDistance extends AbstractCommand {
@@ -18,7 +17,7 @@ public class MinByDistance extends AbstractCommand {
     }
 
     @Override
-    public void executeCommand(ExecutorService FTP ,ExecutorService poolSend, DatagramSocket datagramSocket ,InetAddress inetSocketAddress) throws NumberFormatException, InterruptedException {
+    public void executeCommand(ExecutorService FTP , ExecutorService poolSend, DatagramSocket datagramSocket , SocketAddress inetSocketAddress) throws NumberFormatException, InterruptedException {
     Runnable minbydistance = () -> {
         if (manager.col.size() != 0) {
             Route min = manager.col.stream().min(Route::compareTo).get();

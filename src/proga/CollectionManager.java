@@ -6,6 +6,7 @@ import commands.*;
 import java.io.IOException;
 import java.net.DatagramSocket;
 import java.net.InetSocketAddress;
+import java.net.SocketAddress;
 import java.sql.SQLException;
 import java.util.*;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -24,8 +25,9 @@ public class CollectionManager {
         Scanner scanner = new Scanner(System.in);
         port = Integer.parseInt(scanner.nextLine());
         try (DatagramSocket datagramSocket = new DatagramSocket(null)) {
-            datagramSocket.bind(new InetSocketAddress(port));
-            Connection serverConnection = new Connection(datagramSocket);
+            SocketAddress socketAddress = new InetSocketAddress(port);
+            datagramSocket.bind(socketAddress);
+            Connection serverConnection = new Connection(datagramSocket,socketAddress);
             try {
                 Runtime.getRuntime().addShutdownHook(new Thread() {
                     public void run() {

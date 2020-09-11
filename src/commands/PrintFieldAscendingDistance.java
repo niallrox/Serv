@@ -9,6 +9,7 @@ import proga.Sender;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
+import java.net.SocketAddress;
 import java.util.concurrent.ExecutorService;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -21,7 +22,7 @@ public class PrintFieldAscendingDistance extends AbstractCommand {
     }
 
     @Override
-    public void executeCommand(ExecutorService FTP, ExecutorService poolSend, DatagramSocket datagramSocket ,InetAddress inetSocketAddress) throws NumberFormatException, InterruptedException {
+    public void executeCommand(ExecutorService FTP, ExecutorService poolSend, DatagramSocket datagramSocket , SocketAddress inetSocketAddress) throws NumberFormatException, InterruptedException {
     Runnable printfield = () -> {
         if (manager.col.size() != 0) {
             Stream<Route> stream = manager.col.stream();
