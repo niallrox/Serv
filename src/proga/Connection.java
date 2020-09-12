@@ -3,6 +3,7 @@ package proga;
 import java.io.File;
 import java.io.IOException;
 import java.net.DatagramSocket;
+import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
@@ -33,6 +34,7 @@ public class Connection {
         while (true) {
             Receiver r = new Receiver(datagramSocket, buf, manager, data, poolSend);
             Future<Command> f = poolReceiver.submit(r);
+            SocketAddress socketAddress = new InetSocketAddress(r.getInetAddress(),r.getPort());
             handler.handler(f.get(), manager, data, poolSend, datagramSocket, socketAddress);
         }
     }

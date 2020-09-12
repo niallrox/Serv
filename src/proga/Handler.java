@@ -20,8 +20,7 @@ public class Handler {
             if (command.getName().equals("reg")) {
                 String answer = data.registration(command);
                 Sender s = new Sender(datagramSocket, inetAddress, answer);
-                s.run();
- //             poolSend.submit(s);
+                poolSend.submit(s);
             } else if (command.getName().equals("sign")) {
                 if (data.authorization(command)) {
                     System.out.println("Пользователь с логином " + command.getLogin() + " успешно авторизован.");

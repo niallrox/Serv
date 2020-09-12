@@ -26,11 +26,12 @@ public class Sender implements Runnable {
                 objectOutputStream.flush();
                 byte[] sendbuf = byteArrayOutputStream.toByteArray();
                 DatagramPacket datagramPacket = new DatagramPacket(sendbuf, sendbuf.length, s);
-                System.out.println("piski");
                 datagramSocket.send(datagramPacket);
-                System.out.println("siski");
             }
         } catch (IOException e) {
         }
     }
+
 }
+// java18 -jar Client.jar
+// java18 -jar Serv.jar database.properties
