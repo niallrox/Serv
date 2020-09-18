@@ -30,7 +30,7 @@ public class AddIfMax extends AbstractCommand {
     @Override
     public void executeCommand(ExecutorService FTP, ExecutorService poolSend, DatagramSocket datagramSocket , SocketAddress inetSocketAddress, Route route, String login) throws InterruptedException {
         Runnable addElement = () -> {
-            if (!(manager.col.size() == 0)) {
+            if (manager.col.size() != 0) {
                 Stream<Route> stream = manager.col.stream();
                 Long maxDistance = stream.filter(col -> col.getDistance() != null)
                         .max(Comparator.comparingLong(p -> p.getDistance())).get().getDistance();
