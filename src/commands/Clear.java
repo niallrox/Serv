@@ -6,8 +6,6 @@ import proga.Sender;
 
 
 import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.sql.SQLException;
 import java.util.concurrent.ExecutorService;

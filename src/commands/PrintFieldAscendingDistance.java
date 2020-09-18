@@ -26,8 +26,10 @@ public class PrintFieldAscendingDistance extends AbstractCommand {
     Runnable printfield = () -> {
         if (manager.col.size() != 0) {
             Stream<Route> stream = manager.col.stream();
-            poolSend.submit(new Sender(datagramSocket,inetSocketAddress,stream.filter(col -> col.getDistance() != null).sorted((p1, p2) -> (int) (p1.getDistance() - p2.getDistance()))
-                    .map(col -> "Distance" + " - " + col.getDistance()).collect(Collectors.joining("\n"))));
+            String sos = stream.filter(col -> col.getDistance() != null).sorted((p1, p2) -> (int) (p1.getDistance() - p2.getDistance()))
+                    .map(col -> "Distance" + " - " + col.getDistance()).collect(Collectors.joining("\n"));
+            System.out.println(sos);
+            poolSend.submit(new Sender(datagramSocket,inetSocketAddress,sos));
         }
         poolSend.submit(new Sender(datagramSocket,inetSocketAddress,"Коллекция пуста"));
     };

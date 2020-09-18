@@ -30,7 +30,7 @@ public class Update extends AbstractCommand {
             try {
                 if (!(route == null)) {
                     if (!(manager.col.size() == 0)) {
-                        long id = Long.parseLong(str);
+                        int id = Integer.parseInt(str);
                         data.update(id, login);
                         if (manager.col.removeIf(col -> col.getId() == id && col.getLogin().equals(login))) {
                             route.setId(id);

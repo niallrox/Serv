@@ -22,7 +22,7 @@ public class RemoveHead extends AbstractCommand {
     }
 
     @Override
-    public void executeCommand(ExecutorService FTP, ExecutorService poolSend, DatagramSocket datagramSocket , SocketAddress inetSocketAddress, String str, String login) throws NumberFormatException, InterruptedException {
+    public void executeCommand(ExecutorService FTP, ExecutorService poolSend, DatagramSocket datagramSocket , SocketAddress inetSocketAddress, String login) throws NumberFormatException, InterruptedException {
         Runnable delete = () -> {
         if (manager.col.size() != 0) {
             Route a = manager.col.stream()

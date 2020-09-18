@@ -36,7 +36,7 @@ public class AddIfMax extends AbstractCommand {
                         .max(Comparator.comparingLong(p -> p.getDistance())).get().getDistance();
                 if (route.getDistance() != null && route.getDistance() > maxDistance) {
                     try {
-                        long id = data.getSQLId();
+                        int id = data.getSQLId();
                         data.addToSQL(route, login, id);
                         route.setId(id);
                         route.setLogin(login);

@@ -23,10 +23,10 @@ public class RemoveId extends AbstractCommand {
 
 
     @Override
-    public void executeCommand(ExecutorService FTP, ExecutorService poolSend, DatagramSocket datagramSocket , SocketAddress inetSocketAddress, String str, String login) throws NumberFormatException, InterruptedException {
+    public void executeCommand(ExecutorService FTP, ExecutorService poolSend, DatagramSocket datagramSocket , SocketAddress  inetSocketAddress, String str, String login) throws NumberFormatException, InterruptedException {
         Runnable delete = () -> {
             if (!(manager.col.size() == 0)) {
-                Long id = Long.parseLong(str);
+                Integer id = Integer.parseInt(str);
                 try {
                     data.deleteById(id, login);
                 } catch (SQLException e) {

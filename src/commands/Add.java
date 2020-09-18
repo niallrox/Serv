@@ -24,15 +24,17 @@ public class Add extends AbstractCommand {
     public void executeCommand(ExecutorService FTP, ExecutorService poolSend, DatagramSocket datagramSocket , SocketAddress inetSocketAddress, Route route, String login) throws InterruptedException {
         Runnable addElement = () -> {
             try {
-                long id = data.getSQLId();
+                int id = data.getSQLId();
                 data.addToSQL(route, login, id);
                 route.setId(id);
                 route.setLogin(login);
                 manager.col.add(route);
                 poolSend.submit(new Sender(datagramSocket, inetSocketAddress , "Элемент коллекции добавлен"));
             } catch (SQLException e) {
+                e.printStackTrace();
                 poolSend.submit(new Sender(datagramSocket, inetSocketAddress , "Ошибка при работе с БД (вероятно что-то с БД)"));
             } catch (NullPointerException e) {
+                e.printStackTrace();
                 poolSend.submit(new Sender(datagramSocket, inetSocketAddress , "Данные в скрипте введены не верно"));
             }
         };

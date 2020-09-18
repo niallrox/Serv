@@ -24,7 +24,7 @@ public class Info extends AbstractCommand {
     @Override
     public void executeCommand(ExecutorService FTP, ExecutorService poolSend, DatagramSocket datagramSocket , SocketAddress inetSocketAddress) throws InterruptedException {
         Runnable info = () -> {
-            answer = "Тип коллекции - PriorityQueue\n" +
+            answer = "Тип коллекции - LinkedList\n" +
                     "Дата инициализации " + initDate + "\n" +
                     "Размер коллекции " + manager.col.size();
             poolSend.submit(new Sender(datagramSocket, inetSocketAddress, answer));

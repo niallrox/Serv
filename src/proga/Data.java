@@ -8,7 +8,9 @@ import java.io.*;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.sql.*;
+import java.time.LocalDate;
 import java.util.Base64;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
 import java.util.Properties;
@@ -24,6 +26,7 @@ public class Data {
 
     public LinkedList<Route> loadFromSQL(String file) throws ClassNotFoundException, IOException, SQLException, NullPointerException {
         LinkedList<Route> col = new LinkedList<>();
+        CollectionManager collectionManager = new CollectionManager();
         FileInputStream bd = new FileInputStream(file);
         Properties properties = new Properties();
         properties.load(bd);
@@ -35,7 +38,7 @@ public class Data {
         statement = connect.createStatement();
         res = statement.executeQuery("SELECT * FROM route;");
         while (res.next()) {
-            long id = res.getLong("id");
+            int id = res.getInt("id");
             String name = res.getString("name");
             Integer x = res.getInt("coordX");
             Integer y = res.getInt("coordY");
@@ -89,38 +92,37 @@ public class Data {
     }
 
 
-    public void addToSQL(Route route, String login, long id) throws SQLException, NullPointerException {
+    public void addToSQL(Route route, String login, int id) throws SQLException, NullPointerException {
         ps = connect.prepareStatement("INSERT INTO route (id, name, coordX, coordY, " +
                 "creationDate, locFromX, locFromY, locFromZ, locFromName, locToX, locToY,locToZ,locToName,distance,login) " +
-                "VALUES (nextval('idSGsequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
-        ps.setLong(1,id);
-        ps.setString(2, route.getName());
-        ps.setInt(3, route.getCoordinates().getX());
-        ps.setInt(4, route.getCoordinates().getY());
-        ps.setObject(5, route.getCreationDate());
-        ps.setFloat(6, route.getFrom().getX());
-        ps.setDouble(7, route.getFrom().getY());
-        ps.setInt(8, route.getFrom().getZ());
-        ps.setString(9, route.getFrom().getName());
-        ps.setFloat(10, route.getTo().getX());
-        ps.setDouble(11, route.getTo().getY());
-        ps.setInt(12, route.getTo().getZ());
-        ps.setString(13, route.getFrom().getName());
-        ps.setLong(14, route.getDistance());
-        ps.setString(15, login);
+                "VALUES (currval('idSGsequence'), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);");
+        ps.setString(1, route.getName());
+        ps.setInt(2, route.getCoordinates().getX());
+        ps.setInt(3, route.getCoordinates().getY());
+        ps.setObject(4, route.getCreationDate());
+        ps.setFloat(5, route.getFrom().getX());
+        ps.setDouble(6, route.getFrom().getY());
+        ps.setInt(7, route.getFrom().getZ());
+        ps.setString(8, route.getFrom().getName());
+        ps.setFloat(9, route.getTo().getX());
+        ps.setDouble(10, route.getTo().getY());
+        ps.setInt(11, route.getTo().getZ());
+        ps.setString(12, route.getFrom().getName());
+        ps.setLong(13, route.getDistance());
+        ps.setString(14, login);
         ps.execute();
     }
 
 
-    public long getSQLId() throws SQLException {
+    public int getSQLId() throws SQLException {
         ResultSet res = statement.executeQuery("SELECT nextval('idSGsequence');");
         res.next();
-        return res.getLong(1);
+        return res.getInt(1);
     }
     public long getMAXId() throws SQLException {
         res = statement.executeQuery("SELECT MAX(id) FROM route");
         res.next();
-        long id = res.getLong(1);
+        int id = res.getInt(1);
         return id;
     }
 
@@ -132,16 +134,16 @@ public class Data {
     }
 
 
-    public void deleteById(Long id, String login) throws SQLException {
+    public void deleteById(Integer id, String login) throws SQLException {
         ps = connect.prepareStatement("DELETE FROM route WHERE(id = ?) AND (login = ?)");
-        ps.setLong(1, id);
+        ps.setInt(1, id);
         ps.setString(2, login);
         ps.execute();
     }
 
 
 
-    public void update(long id,String login) throws SQLException {
+    public void update(int id,String login) throws SQLException {
         ps = connect.prepareStatement("UPDATE route SET name = ? , coordX = ? , coordY = ?" +
                 ", creationDate = ?, locFromX = ? , locFromY = ?, locFromZ = ?, locFromName = ?, locToX = ?, locToY = ?, locToZ = ?, locToName = ?, distance = ?" +
                 "WHERE id = ? AND login = ?;");
@@ -158,7 +160,7 @@ public class Data {
         ps.setInt(11, route.getTo().getZ());
         ps.setString(12, route.getTo().getName());
         ps.setLong(13, route.getDistance());
-        ps.setLong(14, id);
+        ps.setInt(14, id);
         ps.setString(15,login);
         ps.execute();
     }

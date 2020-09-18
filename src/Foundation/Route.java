@@ -1,11 +1,13 @@
 package Foundation;
 
+import proga.CollectionManager;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 
 public class Route implements Comparable<Route>, Serializable {
     private static final long serialVersionUID = 1L;
-    private Long id; //Поле не может быть null, Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
+    private Integer id; //Поле не может быть null, Значение поля должно быть больше 0, Значение этого поля должно быть уникальным, Значение этого поля должно генерироваться автоматически
     private String name; //Поле не может быть null, Строка не может быть пустой
     private Coordinates coordinates; //Поле не может быть null
     private LocalDate creationDate; //Поле не может быть null, Значение этого поля должно генерироваться автоматически
@@ -14,7 +16,7 @@ public class Route implements Comparable<Route>, Serializable {
     private Long distance; //Поле не может быть null, Значение поля должно быть больше 1
     private String login;
 
-    public Route(long id, String name, Coordinates coordinates, Location from, Location to, Long distance, String login) {
+    public Route(int id, String name, Coordinates coordinates, Location from, Location to, Long distance, String login) {
         this.id = id;
         this.name = name;
         this.coordinates = coordinates;
@@ -24,12 +26,11 @@ public class Route implements Comparable<Route>, Serializable {
         this.distance = distance;
         this.login = login;
     }
-
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -58,6 +59,10 @@ public class Route implements Comparable<Route>, Serializable {
     public Route(){}
 
     public String getLogin() { return login; }
+
+    public void setCreationDate(LocalDate creationDate) {
+        this.creationDate = creationDate;
+    }
 
     public void setLogin(String login) { this.login = login; }
 

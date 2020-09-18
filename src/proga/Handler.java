@@ -32,6 +32,7 @@ public class Handler {
             } else {
                 if (data.authorization(command)) {
                     switch (command.getName()) {
+                        case "remove_head":
                         case "clear": {
                             manager.commandMap.get(command.getName()).executeCommand(pool, poolSend, datagramSocket, inetAddress , command.getLogin());
                         }
@@ -39,20 +40,19 @@ public class Handler {
                         case "show":
                         case "info":
                         case "help":
-                        case "print_field_ascending_students_count":
-                        case "print_field_descending_form_of_education": {
+                        case "print_field_ascending_distance":
+                        case "max_by_from":
+                        case "min_by_distance": {
                             manager.commandMap.get(command.getName()).executeCommand(pool, poolSend, datagramSocket, inetAddress);
                         }
                         break;
-                        case "remove_greater":
                         case "remove_by_id":
-                        case "remove_any_by_students_count":
                         case "execute_script": {
                             manager.commandMap.get(command.getName()).executeCommand(pool, poolSend, datagramSocket, inetAddress, command.getArgs(), command.getLogin());
                         }
                         break;
+                        case "remove_lower":
                         case "add_if_max":
-                        case "add_if_min":
                         case "add": {
                             manager.commandMap.get(command.getName()).executeCommand(pool, poolSend, datagramSocket, inetAddress, command.getRoute(), command.getLogin());
                         }
@@ -64,11 +64,19 @@ public class Handler {
                     System.out.println("Обработана команда " + command.getName());
                 } else {
                     System.out.println("Кто-то обошел защиту сервера");
-                    poolSend.submit(new Sender(datagramSocket, inetAddress, "О вы юный хакер"));
+                    poolSend.submit(new Sender(datagramSocket, inetAddress, "V-vendetta"));
                 }
             }
-        } catch (NoSuchAlgorithmException | ExecutionException | InterruptedException | UnsupportedEncodingException | SQLException e) {
-            // Все под контролем
+        } catch (NoSuchAlgorithmException e) {
+            System.out.println("Неверный ключ шифрования");
+        } catch (ExecutionException e){
+            System.out.println("Ошибка исполнения");
+        } catch (InterruptedException e){
+            System.out.println("Ошибка работы с потоками");
+        } catch (UnsupportedEncodingException e){
+            System.out.println("Неверная кодировка");
+        } catch (SQLException e){
+            System.out.println("Ошибка при работе с БД");
         }
     }
 }

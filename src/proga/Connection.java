@@ -34,8 +34,9 @@ public class Connection {
         while (true) {
             Receiver r = new Receiver(datagramSocket, buf, manager, data, poolSend);
             Future<Command> f = poolReceiver.submit(r);
+            Command command = f.get();
             SocketAddress socketAddress = new InetSocketAddress(r.getInetAddress(),r.getPort());
-            handler.handler(f.get(), manager, data, poolSend, datagramSocket, socketAddress);
+            handler.handler(command, manager, data, poolSend, datagramSocket, socketAddress);
         }
     }
 }
