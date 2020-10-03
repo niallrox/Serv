@@ -25,7 +25,7 @@ public class MaxByFrom extends AbstractCommand {
             Stream<Route> stream = manager.col.stream();
             Route max = stream
                     .max(Comparator.comparingInt(p -> p.getFromSum())).get();
-            poolSend.submit(new Sender( datagramSocket,inetSocketAddress,  "Элемент с максимальным значением From ето " + max));
+            poolSend.submit(new Sender( datagramSocket,inetSocketAddress,  max.toString()));
         } else {
             poolSend.submit(new Sender(datagramSocket,inetSocketAddress, "Коллекция пуста"));
         }

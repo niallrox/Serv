@@ -46,15 +46,14 @@ public class Route implements Comparable<Route>, Serializable {
 
     @Override
     public String toString() {
-        return "Route{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", coordinates=" + coordinates +
-                ", creationDate=" + creationDate +
-                ", location from=" + from +
-                ", location to=" + to +
-                ", distance=" + distance +
-                '}';
+        return  id +
+                ", " + name +
+                ", " + coordinates +
+                ", " + creationDate +
+                ", " + from +
+                ", " + to +
+                ", " + distance +
+                ", " + login;
     }
     public Route(){}
 

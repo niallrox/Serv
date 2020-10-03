@@ -61,7 +61,8 @@ public class Handler {
                             manager.commandMap.get(command.getName()).executeCommand(pool, poolSend, datagramSocket, inetAddress,command.getArgs(), command.getRoute(), command.getLogin());
                         }
                     }
-                    System.out.println("Обработана команда " + command.getName());
+                    if (!command.getName().equals("show")){
+                    System.out.println("Обработана команда " + command.getName());}
                 } else {
                     System.out.println("Кто-то обошел защиту сервера");
                     poolSend.submit(new Sender(datagramSocket, inetAddress, "V-vendetta"));

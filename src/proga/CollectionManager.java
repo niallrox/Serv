@@ -33,7 +33,7 @@ public class CollectionManager {
                             System.out.println("Отключение сервера");
                         }
                     });
-                    serverConnection.connection(args[0]);
+                    serverConnection.connection("database.properties");
                 } catch (ArrayIndexOutOfBoundsException e) {
                     System.out.println("Вы не ввели имя файла");
                 } catch (NoSuchElementException e) {
@@ -77,6 +77,7 @@ public class CollectionManager {
                 col = data.loadFromSQL(file);
             } catch (SQLException e) {
                 System.out.println("Сервер не подключился к БД");
+                System.out.println("Создайте таблы");
             } catch (IOException e) {
                 System.out.println("Сервер не подключился к БД, введите файл правильно");
                 System.exit(1);

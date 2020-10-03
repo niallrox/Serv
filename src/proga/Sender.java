@@ -3,7 +3,10 @@ package proga;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.net.*;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+import java.net.SocketAddress;
 
 public class Sender implements Runnable {
     private DatagramSocket datagramSocket;
@@ -28,7 +31,7 @@ public class Sender implements Runnable {
                 DatagramPacket datagramPacket = new DatagramPacket(sendbuf, sendbuf.length, s);
                 datagramSocket.send(datagramPacket);
             }
-        } catch (IOException e) {
+        } catch (IOException ignored) {
         }
     }
 

@@ -30,9 +30,9 @@ public class PrintFieldAscendingDistance extends AbstractCommand {
                     .map(col -> "Distance" + " - " + col.getDistance()).collect(Collectors.joining("\n"));
             System.out.println(sos);
             poolSend.submit(new Sender(datagramSocket,inetSocketAddress,sos));
-        }
+        } else{
         poolSend.submit(new Sender(datagramSocket,inetSocketAddress,"Коллекция пуста"));
-    };
+    }} ;
     FTP.execute(printfield);
     }
 }

@@ -20,7 +20,6 @@ public class Data {
     private java.sql.Connection connect;
     private PreparedStatement ps;
     private Statement statement;
-    private Route route;
     private MessageDigest hash;
 
 
@@ -52,7 +51,7 @@ public class Data {
             String locToName = res.getString("locToName");
             Long distance = res.getLong("distance");
             String loginSG = res.getString("login");
-            route = new Route(id, name, new Coordinates(x, y), new Location(locFromX, locFromY, locFromZ,locFromName), new Location(locToX,locToY,locToZ,locToName),distance,loginSG);
+            Route route = new Route(id, name, new Coordinates(x, y), new Location(locFromX, locFromY, locFromZ,locFromName), new Location(locToX,locToY,locToZ,locToName),distance,loginSG);
             col.add(route);
         }
         System.out.println("Сервер подключился к БД");
@@ -143,7 +142,7 @@ public class Data {
 
 
 
-    public void update(int id,String login) throws SQLException {
+    public void update(Route route, int id,String login) throws SQLException {
         ps = connect.prepareStatement("UPDATE route SET name = ? , coordX = ? , coordY = ?" +
                 ", creationDate = ?, locFromX = ? , locFromY = ?, locFromZ = ?, locFromName = ?, locToX = ?, locToY = ?, locToZ = ?, locToName = ?, distance = ?" +
                 "WHERE id = ? AND login = ?;");

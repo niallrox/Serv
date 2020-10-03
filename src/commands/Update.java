@@ -29,9 +29,9 @@ public class Update extends AbstractCommand {
         Runnable update = () -> {
             try {
                 if (!(route == null)) {
-                    if (!(manager.col.size() == 0)) {
+                    if (manager.col.size() != 0) {
                         int id = Integer.parseInt(str);
-                        data.update(id, login);
+                        data.update(route, id, login);
                         if (manager.col.removeIf(col -> col.getId() == id && col.getLogin().equals(login))) {
                             route.setId(id);
                             route.setLogin(login);
@@ -50,6 +50,7 @@ public class Update extends AbstractCommand {
                 poolSend.submit(new Sender(datagramSocket , inetSocketAddress, "Ошибка при работе с БД (вероятно что-то с БД)"));
             } catch (NullPointerException e) {
                 poolSend.submit(new Sender(datagramSocket , inetSocketAddress, "Данные в скрипте введены не верно"));
+                e.printStackTrace();
             }
         };
         FTP.execute(update);

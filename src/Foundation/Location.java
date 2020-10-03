@@ -33,11 +33,9 @@ public class Location implements Serializable {
 
     @Override
     public String toString() {
-        return "{" +
-                "x=" + x +
-                ", y=" + y +
-                ", z=" + z +
-                ", name=" + name +
-                '}';
+        return  x +
+                ", " + y +
+                ", " + z +
+                ", " + name;
     }
 }

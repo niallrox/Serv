@@ -8,8 +8,6 @@ import proga.Sender;
 
 
 import java.net.DatagramSocket;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.sql.SQLException;
 import java.util.Comparator;
@@ -48,7 +46,7 @@ public class AddIfMax extends AbstractCommand {
                         poolSend.submit(new Sender(datagramSocket, inetSocketAddress , "Данные в скрипте введены не верно"));
                     }
                 } else {
-                    poolSend.submit(new Sender(datagramSocket, inetSocketAddress , "Элемент коллекции не сохранен, так как его height меньше " +
+                    poolSend.submit(new Sender(datagramSocket, inetSocketAddress , "Элемент коллекции не сохранен, так как его distance меньше " +
                             "distance других элементов коллекции больше или равен null"));
                 }
             } else {
